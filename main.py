@@ -8,17 +8,27 @@ def generate_primes(n):
         num += 1
     return primes
 
-def fibonacci(n):
-    """Generate the first n Fibonacci numbers."""
-    if n <= 0:
-        return []
-    elif n == 1:
-        return [0]
+def fibonacci(n, memo=None):
+    """
+    Generate the first n Fibonacci numbers using memoization.
+    Time complexity: O(n)
+    Space complexity: O(n)
+    """
+    if memo is None:
+        memo = {}
     
-    fib = [0, 1]
-    while len(fib) < n:
-        fib.append(fib[-1] + fib[-2])
-    return fib
+    def fib(x):
+        if x in memo:
+            return memo[x]
+        if x <= 0:
+            return 0
+        elif x == 1:
+            return 1
+        
+        memo[x] = fib(x-1) + fib(x-2)
+        return memo[x]
+    
+    return [fib(i) for i in range(n)]
 
 if __name__ == "__main__":
     primes = generate_primes(100)
